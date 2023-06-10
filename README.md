@@ -1,0 +1,1 @@
+I've made this project to exercise django programming. It's a simple ecommerce website with a shopping cart and a checkout page. It's not finished yet, but I'm working on it.
