@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'playground',
     'tags',
+    'store',
 ]
 
 MIDDLEWARE = [
