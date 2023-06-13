@@ -32,7 +32,7 @@ class Customer(models.Model):
         (MEMBERSHIP_GOLD, 'Gold')
     ]
     
-    firs_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     mail = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
@@ -41,6 +41,11 @@ class Customer(models.Model):
                                   choices=MEMBERSHIP_CHOICES,
                                   default=MEMBERSHIP_BRONZE)
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['last_name', 'first_name'])
+        ]
+
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
     PAYMENT_STATUS_COMPLETED = 'C'
