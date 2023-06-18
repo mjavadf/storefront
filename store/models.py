@@ -16,6 +16,9 @@ class Collection(models.Model):
     
     def __str__(self):
         return f'{self.title}'
+    
+    class Meta:
+        ordering = ['title']
 
 
 class Product(models.Model):
@@ -30,6 +33,9 @@ class Product(models.Model):
     
     def __str__(self):
         return f'{self.title}'
+    
+    class Meta:
+        ordering = ['title']
 
 
 class Customer(models.Model):
@@ -71,6 +77,9 @@ class Order(models.Model):
     
     def __str__(self):
         return f'{self.id}'
+    
+    class Meta:
+        ordering = ['-placed_at']
 
 
 class OrderItem(models.Model):
@@ -98,6 +107,9 @@ class Cart(models.Model):
     
     def __str__(self):
         return f'{self.id}'
+    
+    class Meta:
+        ordering = ['-created_at']
 
 
 class CartItem(models.Model):
