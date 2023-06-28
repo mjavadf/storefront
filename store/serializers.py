@@ -3,7 +3,7 @@ from decimal import Decimal
 from itertools import product
 from rest_framework import serializers
 
-from .models import Cart, CartItem, Collection, Product, Review
+from .models import Cart, CartItem, Collection, Customer, Product, Review
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -111,4 +111,11 @@ class AddCartItemSerializer(serializers.ModelSerializer):
 class UpdateCartItem(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ['quantity']
+        fields = ["quantity"]
+
+
+class CustomerSrializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
+    class Meta:
+        model = Customer
+        fields = ["id", "user_id", "phone", "birth_date", "membership"]
