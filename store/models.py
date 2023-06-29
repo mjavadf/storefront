@@ -75,6 +75,11 @@ class Customer(models.Model):
     def last_name(self):
         return self.user.last_name
 
+    class Meta:
+        permissions = [
+            ("view_histaory", "Can view history"),
+        ]
+
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = "P"
