@@ -16,7 +16,19 @@ from .models import (
 from .signals import order_created
 
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ["id", "image"]
+
+    def create(self, validated_data):
+        product_id = self.context["product_id"]
+        return ProductImage.objects.create(product_id=product_id, **validated_data)
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
         fields = [
@@ -28,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "unit_price",
             "price_with_tax",
             "collection",
+            "images",
         ]
 
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
@@ -161,9 +174,7 @@ class CreateOrderSerializer(serializers.Serializer):
     def save(self, **kwargs):
         with transaction.atomic():
             cart_id = self.validated_data["cart_id"]
-            customer = Customer.objects.get(
-                user_id=self.context["user_id"]
-            )
+            customer = Customer.objects.get(user_id=self.context["user_id"])
             order = Order.objects.create(customer=customer)
 
             cart_items = CartItem.objects.select_related("product").filter(
@@ -183,21 +194,21 @@ class CreateOrderSerializer(serializers.Serializer):
             Cart.objects.filter(pk=cart_id).delete()
 
             order_created.send_robust(sender=self.__class__, order=order)
-            
+
             return order
 
 
 class UpdateOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['payment_status']
-        
-        
+        fields = ["payment_status"]
+
+
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ['id', 'image']
-        
+        fields = ["id", "image"]
+
     def create(self, validated_data):
-        product_id = self.context['product_id']
+        product_id = self.context["product_id"]
         return ProductImage.objects.create(product_id=product_id, **validated_data)
