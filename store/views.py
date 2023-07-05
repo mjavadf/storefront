@@ -27,6 +27,7 @@ from .models import (
     Order,
     OrderItem,
     Product,
+    ProductImage,
     Review,
 )
 from .permissions import IsAdminOrReadOnly, ViewCustomerHistoryPermission
@@ -39,6 +40,7 @@ from .serializers import (
     CreateOrderSerializer,
     CustomerSerializer,
     OrderSerializer,
+    ProductImageSerializer,
     ProductSerializer,
     ReviewSerializer,
     UpdateCartItem,
@@ -175,3 +177,13 @@ class OrderViewSet(ModelViewSet):
         order = serializer.save()
         serializer = OrderSerializer(order)
         return Response(serializer.data)
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+    
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
+    
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
