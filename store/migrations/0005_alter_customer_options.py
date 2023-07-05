@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='customer',
-            options={'permissions': [('view_history', 'Can view history')]},
+            options={'permissions': [('view_hstory', 'Can view history')]},
         ),
     ]
