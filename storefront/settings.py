@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
 import environ
 import os
 
@@ -181,3 +182,11 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
+
+CELERY_BEAT_SCHEDULE = {
+    "notify_customers": {
+        "task": "store.tasks.notify_customers",  # path to task
+        "schedule": 5  # every 5 seconds
+        # you can also use args or kwargs here
+    }
+}
