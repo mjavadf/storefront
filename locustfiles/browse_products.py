@@ -26,6 +26,10 @@ class WebsiteUser(HttpUser):
             name="/carts/:id/items/",
             json={"product_id": product_id, "quantity": 1},
         )
+        
+    @task
+    def say_hello(self):
+        self.client.get('/playground/hello/')
 
     # this method runs every time a user start browsing website
     def on_start(self):
