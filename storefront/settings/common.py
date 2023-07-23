@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
-from celery.schedules import crontab
 import environ
 import os
 
@@ -160,27 +159,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8001",
     "http://127.0.0.1:8001",
 ]
-
-CELERY_BROKER_URL = "redis://localhost:6379/1"
-
-CELERY_BEAT_SCHEDULE = {
-    "notify_customers": {
-        "task": "store.tasks.notify_customers",  # path to task
-        "schedule": 5  # every 5 seconds
-        # you can also use args or kwargs here
-    }
-}
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
-        "TIMEOUT": 10 * 60, # 10 minutes
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
 
 LOGGING = {
     'version': 1,
